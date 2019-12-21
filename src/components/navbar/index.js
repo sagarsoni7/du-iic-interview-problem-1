@@ -1,18 +1,40 @@
 import React from "react";
 
-export default function NavBar(){
-    return(
-        <div id="sidebar" className="sidebar py-3 shadow-sm">
+class NavBar extends React.Component{
+  constructor(){
+    super();
+    this.state={
+      sidebarWidth:"260px",
+      largePartsVisible:true
+    }
+    this.toggleSidebarWidth=this.toggleSidebarWidth.bind(this);
+  }
+  toggleSidebarWidth(){
+    if(this.state.sidebarWidth==="260px"){
+      this.setState({
+        sidebarWidth:"70px",
+        largePartsVisible:false
+      });  } else{
+        this.setState({sidebarWidth:"260px", largePartsVisible:true})
+      }
+    }
+  
+    render(){
+      return(
+        <div id="sidebar" className="sidebar py-3 shadow-sm"
+       style={{
+         width: this.state.sidebarWidth
+       }}
+        >
         <a
           href="#"
           className="navbar-brand font-weight-bold  text-base sidebar-toggler mr-4 mr-lg-5 lead to-right"
-          data-toggle="collapse"
-          data-target=".HideThisOnCollapse"
+          onClick={this.toggleSidebarWidth}
         >
-          <span className="HideThisOnCollapse panel-collapse  collapsed collapse show">
-            UIMS Portal &nbsp;
+          <span className="">
+            {this.state.largePartsVisible? "UIMS Portal ":""}            
           </span>
-          <i className="fas fa-angle-left"></i>
+          <i className={this.state.largePartsVisible?"fas fa-angle-left":"fas fa-angle-right"}></i>
         </a>
         <br />
         <br />
@@ -21,11 +43,12 @@ export default function NavBar(){
             <a
               href="#"
               className=" sidebar-link text-muted"
-              data-toggle="collapse"
-              data-target=".HideThisCollapse"
+             
             >
               <i className="fas fa-chart-pie mr-3"></i>
-              <span className="HideThisOnCollapse panel-collapse  collapsed collapse show">
+              <span style={{
+                visibility: this.state.largePartsVisible?"visible":"hidden"
+              }}>
                 Portal Dashboard
               </span>
             </a>
@@ -41,9 +64,13 @@ export default function NavBar(){
               className="sidebar-link text-muted active"
             >
               <i className="fas fa-balance-scale mr-3"></i>
-              <span>Legal Cases</span>
+              <span style={{
+                visibility: this.state.largePartsVisible?"visible":"hidden"
+              }}>Legal Cases</span>
             </a>
-            <div id="pages" className="collapse show">
+            <div id="pages" className="collapse show" style={{
+                visibility: this.state.largePartsVisible?"visible":"hidden"
+              }}>
               <ul className="sidebar-menu list-unstyled border-left border-primary">
                 <li className="sidebar-list-item">
                   <a href="#" className="sidebar-link text-muted pl-lg-5">
@@ -64,4 +91,7 @@ export default function NavBar(){
         </ul>
       </div>
     );
+    }
 }
+
+export default NavBar;
